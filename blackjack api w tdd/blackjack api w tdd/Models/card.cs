@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace blackjack_api_w_tdd.Scripts
+namespace blackjack_api_w_tdd
 {
     public class card
     {

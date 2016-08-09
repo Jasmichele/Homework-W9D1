@@ -125,9 +125,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\carddrawmodel.cs" />
     <Compile Include="Models\deck.cs" />
     <Compile Include="Models\person.cs" />
-    <Compile Include="Models\ViewModel.cs" />
+    <Compile Include="Models\CardsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\card.cs" />
   </ItemGroup>
@@ -165,10 +166,12 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Card\Index.cshtml" />
-    <Content Include="Views\Card\DrawACard.cshtml" />
+    <Content Include="Views\Card\PlayGame.cshtml" />
+    <Content Include="Views\Card\GetACard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="blackjack_api_w_tdd\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

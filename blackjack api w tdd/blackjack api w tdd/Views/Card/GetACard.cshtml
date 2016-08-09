@@ -1,0 +1,36 @@
+﻿@model blackjack_api_w_tdd.Models.carddrawmodel
+@{
+    ViewBag.Title = "GetACard";
+}
+
+<h2>Dealer's Hand</h2>
+<br />
+<br />
+@foreach (var card in Model.cards)
+    {
+        <img src="@card.image" />
+    }
+<br />
+<br />
+<p>
+    <a class="btn btn-default" href="@Url.Action("GetACard", new { deck_id = Model.deckId })" ;>Deal a card</a>
+</p>
+<br />
+<br />
+<br />
+<hr />
+<br />
+
+
+<h2>Player's Hand</h2>
+<br />
+<br />
+@foreach (var card in Model.cards)
+    {
+        <img src="@card.image" />
+    }
+<br />
+<br />
+<p>
+    <a class="btn btn-default" href="@Url.Action("DrawACard", new { deck_id = Model.deckId })" ;>Deal a card</a>
+</p>

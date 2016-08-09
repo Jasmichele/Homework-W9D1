@@ -1,5 +1,5 @@
 ﻿using blackjack_api_w_tdd.Models;
-using blackjack_api_w_tdd.Scripts;
+//using blackjack_api_w_tdd.Scripts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -38,30 +38,10 @@ namespace blackjack_api_w_tdd.Controllers
             return View("Error");
         }
 
-        //public async Task<ActionResult> DrawACard()
-        //{
-        //    var deckId = Request.QueryString["deck_id"];
-
-        //    HttpResponseMessage responseMessage = await client.GetAsync(url + "/" + deckId + "/draw/?count=1");
-
-        //    if (responseMessage.IsSuccessStatusCode)
-        //    {
-        //        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
-
-        //        var viewModel = JsonConvert.DeserializeObject<carddrawmodel>(responseData);
-
-        //        if (viewModel.remaining == 0)
-        //            RedirectToAction("Index");
-
-        //        return View(viewModel);
-        //    }
-        //    return View("Error");
-        //}
-
         public async Task<ActionResult> PlayGame()
         {
-            var deckId = Request.QueryString["deck_id"];
-            ViewModel game = new ViewModel();
+            CardsViewModel game = new Models.CardsViewModel();
+            game.deckId = Request.QueryString["deck_id"];
             game.dealer = new person();
             game.player = new person();
             game.dealer.hand = new List<card>();
@@ -69,32 +49,38 @@ namespace blackjack_api_w_tdd.Controllers
 
             for (int i = 0; i < 2; i++)
             {
-                game.dealer.hand.Add(GetACard(game.deck_id));
-                game.player.hand.Add(GetACard(game.deck_id));
+                game.dealer.hand.Add(await GetACard(game.deckId));
+                game.player.hand.Add(await GetACard(game.deckId));
             }
 
+            Session["DealerHand"] = game;
             return View(game);
 
         }
 
-        public async Task<ActionResult> GetACard(string deck_id)
+        public async Task<card> GetACard(string deckID)
         {
-            var deckId = Request.QueryString["deck_id"];
-
-            HttpResponseMessage responseMessage = await client.GetAsync(url + "/" + deckId + "/draw/?count=1");
+            HttpResponseMessage responseMessage = await client.GetAsync(url + "/" + deckID + "/draw/?count=1");
 
             if (responseMessage.IsSuccessStatusCode)
             {
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;
 
-                var aCard = JsonConvert.DeserializeObject<ViewModel>(responseData);
+                var drawnCard = JsonConvert.DeserializeObject<carddrawmodel>(responseData);
 
-                if (aCard.remaining == 0)
+                if (drawnCard.remaining == 0)
                     RedirectToAction("Index");
 
-                return View(aCard);
+                return drawnCard.cards[0];
             }
-            return View("Error");
+            return null;
         }
+
+        [HttpPost]
+        public async Task<ActionResult> GetACard()
+        {
+
+        }
+
     }
 }
