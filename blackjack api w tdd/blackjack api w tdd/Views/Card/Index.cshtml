@@ -4,14 +4,12 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Dealer's Hand</h2>
+<h2>Index</h2>
 
-<br />
-<br />
-<br />
-<hr />
-<br />
-<br />
-<br />
+<h3>Card Dealer</h3>
 
-<h2>Player's Hand</h2>
+<p>You have @Model.remaining cards remaining in your deck.</p>
+
+<p>
+    <a class="btn btn-default" href="@Url.Action("DrawACard", new { deck_id = Model.deck_id })" ;>Deal a card</a>
+</p>

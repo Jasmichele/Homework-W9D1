@@ -8,6 +8,6 @@ namespace blackjack_api_w_tdd.Models
 {
     public class person
     {
-        List<card> hand = new List<card>();
+        public List<card> hand = new List<card>();
     }
 }

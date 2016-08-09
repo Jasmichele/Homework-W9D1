@@ -1,4 +1,5 @@
 ﻿using blackjack_api_w_tdd.Models;
+using blackjack_api_w_tdd.Scripts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,27 +24,60 @@ namespace blackjack_api_w_tdd.Controllers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        // GET: Card
         public async Task<ActionResult> Index()
         {
-            if (currentDeck == null || currentDeck.remaining == 0)
+            HttpResponseMessage responseMessage = await client.GetAsync(url + "/new/shuffle/?deck_count=1");
+
+            if (responseMessage.IsSuccessStatusCode)
             {
-                HttpResponseMessage responseMessage = await client.GetAsync(url + "/new/shuffle/?deck_count=1");
+                var responseData = responseMessage.Content.ReadAsStringAsync().Result;
 
-                if (responseMessage.IsSuccessStatusCode)
-                {
-                    var responseData = responseMessage.Content.ReadAsStringAsync().Result;
-
-                    currentDeck = JsonConvert.DeserializeObject<deck>(responseData);
-                    return View(currentDeck);
-                }
-                return View("Error");
+                currentDeck = JsonConvert.DeserializeObject<deck>(responseData);
+                return View(currentDeck);
             }
-
-            return View(currentDeck);
+            return View("Error");
         }
 
-        public async Task<ActionResult> DrawACard()
+        //public async Task<ActionResult> DrawACard()
+        //{
+        //    var deckId = Request.QueryString["deck_id"];
+
+        //    HttpResponseMessage responseMessage = await client.GetAsync(url + "/" + deckId + "/draw/?count=1");
+
+        //    if (responseMessage.IsSuccessStatusCode)
+        //    {
+        //        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+
+        //        var viewModel = JsonConvert.DeserializeObject<carddrawmodel>(responseData);
+
+        //        if (viewModel.remaining == 0)
+        //            RedirectToAction("Index");
+
+        //        return View(viewModel);
+        //    }
+        //    return View("Error");
+        //}
+
+        public async Task<ActionResult> PlayGame()
+        {
+            var deckId = Request.QueryString["deck_id"];
+            ViewModel game = new ViewModel();
+            game.dealer = new person();
+            game.player = new person();
+            game.dealer.hand = new List<card>();
+            game.player.hand = new List<card>();
+
+            for (int i = 0; i < 2; i++)
+            {
+                game.dealer.hand.Add(GetACard(game.deck_id));
+                game.player.hand.Add(GetACard(game.deck_id));
+            }
+
+            return View(game);
+
+        }
+
+        public async Task<ActionResult> GetACard(string deck_id)
         {
             var deckId = Request.QueryString["deck_id"];
 
@@ -53,12 +87,12 @@ namespace blackjack_api_w_tdd.Controllers
             {
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;
 
-                var viewModel = JsonConvert.DeserializeObject<carddrawmodel>(responseData);
+                var aCard = JsonConvert.DeserializeObject<ViewModel>(responseData);
 
-                if (viewModel.remaining == 0)
+                if (aCard.remaining == 0)
                     RedirectToAction("Index");
 
-                return View(viewModel);
+                return View(aCard);
             }
             return View("Error");
         }
