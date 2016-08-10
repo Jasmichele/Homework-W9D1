@@ -3,18 +3,19 @@
 @{
     ViewBag.Title = "Index";
 }
-
+@using (Html.BeginForm())
+{
 <h2>Dealer's Hand</h2>
 <br />
 <br />
-@foreach (var card in Model.dealer.hand)
-    {
+foreach (var card in Model.dealer.hand)
+{
         <img src="@card.image" />
-    }
+}
 <br />
 <br />
 <p>
-    <a class="btn btn-default" href="@Url.Action("GetACard", new { deck_id = Model.deckId })" ;>Deal a card</a>
+    <input type="submit" value="Hit" name="dealerHitButton"/>
 </p>
 <br />
 <br />
@@ -26,12 +27,13 @@
 <h2>Player's Hand</h2>
 <br />
 <br />
-@*@foreach (var card in Model.cards)
+@foreach (var card in Model.player.hand)
     {
         <img src="@card.image" />
-    }*@
+    }
 <br />
 <br />
 <p>
-    <a class="btn btn-default" href="@Url.Action("DrawACard", new { deck_id = Model.deckId })" ;>Deal a card</a>
+    <input type="submit" value="Hit" name="playerHitButton" />
 </p>
+}

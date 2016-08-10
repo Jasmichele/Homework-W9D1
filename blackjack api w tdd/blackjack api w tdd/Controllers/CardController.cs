@@ -53,10 +53,57 @@ namespace blackjack_api_w_tdd.Controllers
                 game.player.hand.Add(await GetACard(game.deckId));
             }
 
-            Session["DealerHand"] = game;
+            Session["gameSession"] = game;
+
             return View(game);
 
         }
+
+
+        [HttpPost]
+        public async Task<ActionResult> PlayGame(string dealerHitButton, string playerHitButton)
+        {
+            CardsViewModel game = (CardsViewModel)Session["gameSession"];
+            if (dealerHitButton != null)
+            {
+
+                game.dealer.hand.Add(await GetACard(game.deckId));
+                return View(game);
+            }
+            else if (playerHitButton != null)
+            {
+                game.player.hand.Add(await GetACard(game.deckId));
+                return View(game);
+            }
+            else
+                return View(game);
+
+
+        }
+
+        //public Task<CardsViewModel> DealerHandTotal(CardsViewModel game)
+        //{
+
+        //    // this stuff is for changing extra ace to 1, 
+        //    foreach (var card in game.dealer.hand)
+        //    {
+        //        for (int i = 0; i < game.dealer.hand.Count; i++)
+        //        {
+        //            if (game.dealer.hand[i].code[0].)
+        //            {
+        //                game.dealer.hand
+        //            }
+        //            else if (game.dealer.hand[i].code[0].ToString() == "A")
+        //            {
+
+        //            }
+        //            else
+        //            {
+
+        //            }
+        //        }
+        //    }
+        //}
 
         public async Task<card> GetACard(string deckID)
         {
@@ -75,12 +122,5 @@ namespace blackjack_api_w_tdd.Controllers
             }
             return null;
         }
-
-        [HttpPost]
-        public async Task<ActionResult> GetACard()
-        {
-
-        }
-
     }
 }

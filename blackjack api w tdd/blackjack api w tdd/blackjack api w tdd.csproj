@@ -167,7 +167,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Card\Index.cshtml" />
     <Content Include="Views\Card\PlayGame.cshtml" />
-    <Content Include="Views\Card\GetACard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

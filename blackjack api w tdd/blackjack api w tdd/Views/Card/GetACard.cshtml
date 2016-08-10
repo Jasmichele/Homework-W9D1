@@ -13,7 +13,8 @@
 <br />
 <br />
 <p>
-    <a class="btn btn-default" href="@Url.Action("GetACard", new { deck_id = Model.deckId })" ;>Deal a card</a>
+    @Html.ActionLink("button", "GetACard")
+    @*<a class="btn btn-default" href="@Url.Action("GetACard")" ;>Deal a card</a>*@
 </p>
 <br />
 <br />
@@ -31,6 +32,6 @@
     }
 <br />
 <br />
-<p>
+@*<p>
     <a class="btn btn-default" href="@Url.Action("DrawACard", new { deck_id = Model.deckId })" ;>Deal a card</a>
-</p>
+</p>*@
