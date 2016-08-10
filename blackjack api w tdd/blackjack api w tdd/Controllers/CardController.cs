@@ -66,7 +66,6 @@ namespace blackjack_api_w_tdd.Controllers
             CardsViewModel game = (CardsViewModel)Session["gameSession"];
             if (dealerHitButton != null)
             {
-
                 game.dealer.hand.Add(await GetACard(game.deckId));
                 return View(game);
             }
